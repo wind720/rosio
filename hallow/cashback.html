@@ -93,28 +93,32 @@
     </div>
 
     <script>
+        
         function togglerets() {
-            const rets = document.querySelectorAll('.ret');
-            rets.forEach(ret => {
-                ret.classList.toggle('hidden');
-            });
-        }
-
+    const rets = document.querySelectorAll('.ret');
+    rets.forEach(ret => {
+      ret.classList.toggle('hidden');
+    });
+  }
+        
         function change() {
-            const moedasInput = document.getElementById('moedasInput');
-            const moedas = parseInt(moedasInput.value);
+        const moedasInput = document.getElementById('moedasInput');
+        const moedas = parseInt(moedasInput.value);
 
-            if (!isNaN(moedas)) {
-                const saldoElement = document.getElementById('saldo');
-                const saldoAtual = parseInt(saldoElement.innerText);
-                const novoSaldo = saldoAtual + moedas;
-                saldoElement.innerText = novoSaldo;
+        if (!isNaN(moedas)) {
+            const saldoElement = document.getElementById('saldo');
+            const saldoAtual = parseInt(saldoElement.innerText);
+            
+            // Divida o valor de moedas por 5 antes de adicionar ao saldo atual
+            const novoSaldo = saldoAtual + moedas / 5;
+            
+            saldoElement.innerText = novoSaldo.toFixed(2); // Exibe o novo saldo com duas casas decimais
 
-                moedasInput.value = '';
-            } else {
-                alert('Por favor, insira um valor numérico válido.');
-            }
+            moedasInput.value = '';
+        } else {
+            alert('Por favor, insira um valor numérico válido.');
         }
+    }
     </script>
 </body>
 </html>
