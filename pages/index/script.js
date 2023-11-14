@@ -33,7 +33,7 @@ function login() {
             if (response && response.senha) {
                 if (response.senha === password) {
                     console.log('Login bem-sucedido:', response);
-                    window.location.href = 'https://asd-chi-teal.vercel.app/';
+                    window.location.href = 'https://vendas-gilt.vercel.app/';
                 } else {
                     console.log('Credenciais inválidas');
                 }
@@ -59,7 +59,7 @@ function register() {
         contentType: 'application/json',
         success: function (response) {
             console.log('Cadastro bem-sucedido:', response);
-            window.location.href = 'https://asd-chi-teal.vercel.app/';
+            window.location.href = 'https://vendas-gilt.vercel.app/';
         },
         error: function (error) {
             console.error('Erro no cadastro:', error);
