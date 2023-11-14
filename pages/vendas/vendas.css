@@ -1,0 +1,29 @@
+body {
+    font-family: sans-serif;
+  }
+  
+  header {
+    background-color: #000;
+    color: #fff;
+    padding: 10px;
+  }
+  
+  h1 {
+    font-size: 20px;
+  }
+  
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  main {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  section.produto {
+    display: inline-block;
+    margin: 10px;
+  }
+  
