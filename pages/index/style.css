@@ -89,3 +89,23 @@ body{
 img{
     margin-top: 200px;
 }
+
+#message {
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: whitesmoke;
+    position: absolute;
+    top: 560px;
+}
+
+#inputFields {
+    position: absolute;
+    top: 600px;
+}
+
+#inputFields label {
+    display: block; /* Isso faz com que os rótulos fiquem em linhas separadas */
+    font-size: 20px;
+    color: aliceblue;
+    margin-bottom: 10px; /* Adicione uma margem inferior para separar os rótulos */
+}

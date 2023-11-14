@@ -109,10 +109,10 @@
             const saldoElement = document.getElementById('saldo');
             const saldoAtual = parseInt(saldoElement.innerText);
             
-            // Divida o valor de moedas por 5 antes de adicionar ao saldo atual
+            
             const novoSaldo = saldoAtual + moedas / 5;
             
-            saldoElement.innerText = novoSaldo.toFixed(2); // Exibe o novo saldo com duas casas decimais
+            saldoElement.innerText = novoSaldo.toFixed(2); 
 
             moedasInput.value = '';
         } else {
