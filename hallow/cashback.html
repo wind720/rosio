@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  @font-face {
+    font-family: 'halo1';
+    src: url(Font/Scream\ Real.ttf);
+  }
+  @font-face {
+    font-family: 'halo2';
+    src: url(Font2/Gypsy\ Curse.ttf);
+  }
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: radial-gradient(#d400ff, #5d0096 80%);
+
+  }
+
+  .cont {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+  }
+
+  .ret1, .ret2 {
+    width: 300px;
+    height: 600px;
+    background-color: #E88B00;
+  }
+
+  .button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+
+  .but {
+    padding: 10px 20px;
+    background-color: #A00000;
+    color: white;
+    border: 0px;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+    border-radius: 10px;
+    font-family: 'halo1';
+  }
+  .but:hover {
+    background-color: #ca0c0c;
+    transition: 0.2s ease-in-out; 
+  }
+
+  .p1, .p2{
+    text-align: center;
+    font-size: 25px;    
+    font-family: 'halo1';
+  }
+  .inpt {
+    align-items: center;
+    justify-content: center;
+    display: flex   ;
+  }
+</style>
+</head>
+<body>
+<div class="cont">
+  <div class="ret1">
+    <p class="p1">
+        Voce possui:<br><br>moedas
+        
+    </p>
+    <br><br>
+    <p class="p2">
+        Voce deseja trocar quantas moedas?
+    </p>
+    <p class="inpt"><input></p>
+</div>
+  <div class="button">
+    <button class="but" onclick="togglerets()">Trocar</button>
+  </div>
+  <div class="ret2">
+    <p class="p2">
+      Seu saldo atual de moedas é:
+    </p>
+  </div>
+</div>
+
+<script>
+  function togglerets() {
+    const rets = document.querySelectorAll('.ret');
+    rets.forEach(ret => {
+      ret.classList.toggle('hidden');
+    });
+  }
+</script>
+</body>
+</html>
