@@ -1,29 +1,95 @@
+@font-face {
+    font-family: 'halloween';
+    src: url(Font2/Gypsy\ Curse.ttf);
+}
+
+@font-face {
+    font-family: 'halo2';
+    src: url(Font/Scream\ Real.ttf);
+}
+
 body {
     font-family: sans-serif;
-  }
-  
-  header {
-    background-color: #000;
-    color: #fff;
-    padding: 10px;
-  }
-  
-  h1 {
+    background-image: url(images/580b57fcd9996e24bc43c3ee.png), radial-gradient(#D400FF, #5D0096 80%);
+    background-size: 600px, 100%;
+    background-position: right, center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.headertitle {
+    font-family: 'halloween';
+    font-size: 60px;
+    text-shadow: #99620f 5px 2px 2px;
+}
+
+.header {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: row;
+    background-color: #E88B00;
+    padding: 50px;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 30px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+h2 {
+    font-family: 'halo2';
     font-size: 20px;
-  }
-  
-  a {
-    color: #fff;
+    color: #ee9c20;
+}
+
+a {
+    font-family: 'halo2';
     text-decoration: none;
-  }
-  
-  main {
+    transition: 0.3s;
+    z-index: 1;
+}
+
+a:hover {
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.options {
+    display: flex;
+    flex-direction: row;
+    padding: 50px;
+    width: 50%;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.saldo {
+    font-family: 'Leelawadee UI';
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+p {
+    color: aliceblue;
+    font-family: 'Leelawadee UI';
+    font-weight: bold;
+    font-size: 15px;
+}
+
+main {
     width: 80%;
-    margin: 0 auto;
-  }
-  
-  section.produto {
+    margin: auto;
+    padding-top: 140px;
+}
+
+section.produto {
     display: inline-block;
     margin: 10px;
-  }
-  
+    box-shadow: 3px 3px 3px 3px #5D0096;
+    border-radius: 5px;
+    padding: 20px;
+}
