@@ -4,16 +4,47 @@ let score = 0;
 let clickedCards = [];
 let gameDuration = 15; // segundos
 let timer;
+const correctUsername = "seu_usuario"; // Substitua com o nome de usuário correto
+const correctPassword = "sua_senha"; // Substitua com a senha correta
+
+function promptForCredentials() {
+    const username = prompt("Digite seu nome de usuário:");
+    const password = prompt("Digite sua senha:");
+
+    return { username, password };
+}
+
+function authenticateUser() {
+    let attempts = 3;
+
+    while (attempts > 0) {
+        const { username, password } = promptForCredentials();
+
+        if (username === correctUsername && password === correctPassword) {
+            alert("Credenciais corretas! Bem-vindo ao jogo.");
+            return true;
+        } else {
+            attempts--;
+            alert(`Credenciais incorretas. Tentativas restantes: ${attempts}`);
+        }
+    }
+
+    alert("Número máximo de tentativas atingido. O jogo será encerrado.");
+    return false;
+}
 
 function startGame() {
-    // Alert box antes do jogo começar
-    alert("Bem-vindo ao 'Treasure of Souls'! Clique nos emojis temáticos de halloween para acumular pontos, mas cuidado ao clicar em outros emojis! \nEles estarão em cartas, que mudam a cada 3 segundos, e a duração total do jogo será de 15 segundos. Seja rápido!");
+    const userConfirmed = confirm("Para jogar, digite seu nome de usuário e senha.");
 
-    createGameBoard();
-    updateScore();
-    updateTimer();
-    timer = setInterval(updateGame, 3000);
-    setInterval(updateTimer, 1000);
+    if (userConfirmed && authenticateUser()) {
+        alert("Bem-vindo ao 'Treasure of Souls'! Clique nos emojis temáticos de Halloween para acumular pontos, mas cuidado ao clicar em outros emojis! \nEles estarão em cartas, que mudam a cada 3 segundos, e a duração total do jogo será de 15 segundos. Seja rápido!");
+
+        createGameBoard();
+        updateScore();
+        updateTimer();
+        timer = setInterval(updateGame, 3000);
+        setInterval(updateTimer, 1000);
+    }
 }
 
 function createGameBoard() {
