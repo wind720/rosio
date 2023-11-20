@@ -26,19 +26,23 @@ function login() {
     const username = $('#loginUsername').val();
     const password = $('#loginPassword').val();
 
+    if (!username || !password) {
+        alert('Por favor, preencha todos os campos para entrar.');
+        return;
+    }
+
     $.ajax({
-        url: 'http://172.16.31.43:3000/users/' + username,
+        url: 'https://teste1-yebt.onrender.com/users',
         method: 'GET',
-        success: function (response) {
-            if (response && response.senha) {
-                if (response.senha === password) {
-                    console.log('Login bem-sucedido:', response);
-                    window.location.href = 'https://vendas-gilt.vercel.app/';
-                } else {
-                    console.log('Credenciais inválidas');
-                }
+        success: function (users) {
+            const user = users.find(u => u.nome === username && u.senha === password);
+
+            if (user) {
+                console.log('Login bem-sucedido:', user);
+                window.location.href = '../vendas/index.html'; // Redireciona para a página desejada
             } else {
-                console.log('Usuário não encontrado na API');
+                alert('Credenciais incorretas. Por favor, verifique seu nome de usuário e senha.');
+                console.log('Credenciais inválidas');
             }
         },
         error: function (error) {
@@ -52,14 +56,20 @@ function register() {
     const username = $('#signupUsername').val();
     const password = $('#signupPassword').val();
 
+    if (!email || !username || !password) {
+        alert('Por favor, preencha todos os campos para se cadastrar.');
+        return;
+    }
+
     $.ajax({
-        url: 'http://172.16.31.43:3000/users',
+        url: 'https://teste1-yebt.onrender.com/users',
         method: 'POST',
         data: JSON.stringify({ nome: username, email, senha: password, cashback: 0, availableBalance: 0 }),
         contentType: 'application/json',
         success: function (response) {
             console.log('Cadastro bem-sucedido:', response);
-            window.location.href = 'https://vendas-gilt.vercel.app/';
+            alert('Cadastro realizado com sucesso!');
+            showLogin(); // Abre a aba de login após o cadastro
         },
         error: function (error) {
             console.error('Erro no cadastro:', error);

@@ -1,5 +1,5 @@
 // game.js
-const apiUrl = "http://172.16.31.43:3000/users"; // Substitua com a URL correta da sua API
+const apiUrl = "https://teste1-yebt.onrender.com/users"; // Substitua com a URL correta da sua API
 
 const emojis = ["🎃", "👻", "🕷️", "🦇", "🧙‍♀️", "🧟", "🍬", "❤️", "☀️", "🍕", "🎈", "🐱", "🌹", "✨", "😎", "💋"];
 const halloweenEmojis = ["🎃", "👻", "🕷️", "🦇", "🧙‍♀️", "🧟", "🍬"];
@@ -46,7 +46,7 @@ async function authenticateUser() {
     }
 
     alert("Número máximo de tentativas atingido. O jogo será encerrado.");
-    window.location.href("../vendas/index.html");
+    window.open("../vendas/index.html", "_self");
     return false;
 }
 async function updateScoreInApi() {
@@ -59,8 +59,8 @@ async function updateScoreInApi() {
         const userToUpdate = users.find(user => user.nome === currentUser.nome);
 
         if (userToUpdate) {
-            // Atualiza a pontuação localmente
-            userToUpdate.pontos = score;
+            // Soma os pontos existentes com os novos pontos
+            userToUpdate.pontos += score;
 
             // Faz uma requisição PUT para atualizar os dados completos do usuário
             await fetch(`${apiUrl}/${userToUpdate.nome}`, {
@@ -166,20 +166,26 @@ function updateTimer() {
 }
 
 function endGame() {
-    // Alert box no final do jogo
-    const message = `Jogo encerrado! Sua pontuação final é ${score}\nClique em OK para receber os pontos.`;
-    const confirmResponse = confirm(message);
+    // Evita múltiplas contagens ao clicar várias vezes no botão "OK"
+    if (score > 0) {
+        // Alert box no final do jogo
+        const message = `Jogo encerrado! Sua pontuação final é ${score}\nClique em OK para receber os pontos.`;
+        const confirmResponse = confirm(message);
 
-    if (confirmResponse) {
-        // Atualizar pontos apenas se o usuário clicar em OK
-        updateScoreInApi().then(() => {
-            // Redirecionar para outra página ao clicar em OK
-            window.location.href("../../hallow/cashback.html");
-        });
+        if (confirmResponse) {
+            // Atualizar pontos apenas se o usuário clicar em OK
+            updateScoreInApi().then(() => {
+                // Redirecionar para outra página ao clicar em OK
+                window.open("../../hallow/cashback.html", "_self");
+            });
+        } else {
+            // Se o usuário não clicar em OK, não atualizar os pontos
+            // Redirecionar para outra página
+            window.open("../../hallow/cashback.html", "_self");
+        }
     } else {
-        // Se o usuário não clicar em OK, não atualizar os pontos
-        // Redirecionar para outra página
-        window.location.href("../../hallow/cashback.html");
+        // Se os pontos forem zero, redirecionar diretamente
+        window.open("../../hallow/cashback.html", "_self");
     }
 }
 
