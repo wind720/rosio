@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,10 +10,12 @@
             font-family: 'halo1';
             src: url(Fonte/Scream\ Real.ttf);
         }
+
         @font-face {
             font-family: 'halo2';
             src: url(Fonte2/Gypsy\ Curse.ttf);
         }
+
         body {
             display: flex;
             justify-content: center;
@@ -28,20 +31,31 @@
             gap: 50px;
         }
 
-        .ret1, .ret2 {
+        .ret1 {
+            position: relative;
             width: 300px;
             height: 600px;
             background-color: #E88B00;
             font-family: 'halo1';
         }
 
-        .button {
+        .ret2 {
+            width: 300px;
+            height: 600px;
+            background-color: #E88B00;
+            font-family: 'halo1';
+        }
+
+        .button,
+        .button2 {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-top: 20px;
         }
 
-        .but {
+        .but,
+        .but2 {
             padding: 10px 20px;
             background-color: #A00000;
             color: white;
@@ -54,12 +68,14 @@
 
         .but:hover {
             background-color: #ca0c0c;
-            transition: 0.2s ease-in-out; 
+            transition: 0.2s ease-in-out;
         }
 
-        .p1, .p2 {
+        .p1,
+        .p2,
+        .p3 {
             text-align: center;
-            font-size: 25px;    
+            font-size: 25px;
             font-family: 'halo1';
         }
 
@@ -68,8 +84,33 @@
             justify-content: center;
             display: flex;
         }
+
+        #result {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 25px;
+            color: white;
+            font-family: 'Leelawadee UI';
+        }
+
+        #saldoValue {
+            font-family: 'halo1';
+            font-size: 25px;
+        }
+
+        @media only screen and (max-width: 570px) {
+            .ret1,
+            .ret2 {
+                width: 70%;
+                margin-right: 0;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="cont">
         <div class="ret1">
@@ -81,44 +122,49 @@
                 Deseja trocar quantas moedas?
             </p>
             <p class="inpt"><input id="moedasInput"></p>
+            <div id="result">3000</div>
         </div>
         <div class="button">
             <button class="but" onclick="change()">Trocar</button>
         </div>
+        <div class="button2">
+            <button class="but2">Voltar para o Menu Principal</button>
+        </div>
         <div class="ret2">
-            <p class="p2">
-                Saldo depois da troca:<br> <span id="saldo">0</span>
+            <p class="p3">
+                Saldo depois da troca:<br><span id="saldoValue">0</span>
             </p>
         </div>
     </div>
 
     <script>
-        
-        function togglerets() {
-    const rets = document.querySelectorAll('.ret');
-    rets.forEach(ret => {
-      ret.classList.toggle('hidden');
-    });
-  }
-        
+        const resultElement = document.getElementById('result');
+        const saldoElement = document.getElementById('saldoValue');
+
         function change() {
-        const moedasInput = document.getElementById('moedasInput');
-        const moedas = parseInt(moedasInput.value);
+            const moedasInput = document.getElementById('moedasInput');
+            const moedas = parseFloat(moedasInput.value);
 
-        if (!isNaN(moedas)) {
-            const saldoElement = document.getElementById('saldo');
-            const saldoAtual = parseInt(saldoElement.innerText);
-            
-            
-            const novoSaldo = saldoAtual + moedas / 5;
-            
-            saldoElement.innerText = novoSaldo.toFixed(2); 
+            if (!isNaN(moedas)) {
+                const saldoAtual = parseFloat(resultElement.innerText);
 
-            moedasInput.value = '';
-        } else {
-            alert('Por favor, insira um valor numérico válido.');
+                if (moedas <= saldoAtual) {
+                    const novoSaldo = saldoAtual - moedas;
+                    const taxaConversao = 0.01;
+                    const saldoConvertido = moedas * taxaConversao;
+
+                    resultElement.innerText = novoSaldo.toFixed(2);
+                    saldoElement.innerText = saldoConvertido.toFixed(2);
+                    moedasInput.value = '';
+                    alert('Troca realizada com sucesso!');
+                } else {
+                    alert('Você não pode trocar mais moedas do que possui.');
+                }
+            } else {
+                alert('Por favor, insira um valor numérico válido.');
+            }
         }
-    }
     </script>
 </body>
+
 </html>
