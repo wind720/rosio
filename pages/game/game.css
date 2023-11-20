@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'halloween';
+    src: url(Font2/Gypsy\ Curse.ttf);
+}
+
+@font-face {
+    font-family: 'halo2';
+    src: url(Font/Scream\ Real.ttf);
+}
+
 body {
     background-image: url(images/580b57fcd9996e24bc43c3ee.png), radial-gradient(#D400FF, #5D0096 80%);
     background-size: 600px, 100%;
@@ -32,5 +42,18 @@ body {
 
 #score,
 #timer {
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-left: 20px;
+    font-family: 'halo2';
+    font-size: 20px;
+}
+
+#timer {
+    color: #e40f9d;
+    text-shadow: #813267 2px 2px 2px;
+}
+
+#score {
+    color: #ee9c20;
+    text-shadow: rgb(133, 98, 45) 2px 2px 2px;
 }

@@ -55,7 +55,7 @@ function handleCardClick() {
 }
 
 function updateScore() {
-    document.getElementById("score").innerText = `Pontuação: ${score}`;
+    document.getElementById("score").innerText = `Pontos: ${score}`;
 }
 
 function updateGame() {
@@ -84,7 +84,7 @@ function endGame() {
     alert(message);
 
     // Redirecionar para outra página ao clicar em OK
-    window.location.href = "outra_pagina.html";
+    window.open("../../hallow/cashback.html", "_self");
 }
 
 startGame();
