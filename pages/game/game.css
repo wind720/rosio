@@ -1,0 +1,36 @@
+body {
+    background-image: url(images/580b57fcd9996e24bc43c3ee.png), radial-gradient(#D400FF, #5D0096 80%);
+    background-size: 600px, 100%;
+    background-position: right, center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#game-board {
+    display: grid;
+    width: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    grid-template-columns: repeat(7, 70px);
+    gap: 5px;
+}
+
+.card {
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    line-height: 70px;
+    font-size: 30px;
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.clicked {
+    background-color: #888;
+}
+
+#score,
+#timer {
+    margin-top: 10px;
+}
