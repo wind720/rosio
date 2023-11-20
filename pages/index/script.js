@@ -1,5 +1,5 @@
 function showLogin() {
-    $('#message').html('Preencha com seu nome de usuário e senha para entrar.');
+    $('#message').html('Preencha os campos abaixo para entrar.');
     $('#inputFields').html(`
         <label for="loginUsername">Nome de Usuário:</label>
         <input type="text" id="loginUsername" name="loginUsername" placeholder="Seu nome de usuário">
@@ -10,7 +10,7 @@ function showLogin() {
 }
 
 function showSignup() {
-    $('#message').html('Preencha com seu e-mail, nome de usuário e senha para se cadastrar.');
+    $('#message').html('Preencha os campos abaixo para realizar cadastrar.');
     $('#inputFields').html(`
         <label for="signupEmail">E-mail:</label>
         <input type="email" id="signupEmail" name="signupEmail" placeholder="Seu e-mail">

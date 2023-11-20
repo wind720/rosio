@@ -2,18 +2,21 @@
     font-family: 'halloween';
     src: url(Font2/Gypsy\ Curse.ttf);
 }
+
 @font-face {
     font-family: 'halo2';
     src: url(Font/Scream\ Real.ttf);
 }
-body{
+
+body {
     background-image: url(images/580b57fcd9996e24bc43c3ee.png), radial-gradient(#D400FF, #5D0096 80%);
     background-size: 600px, 100%;
     background-position: right, center;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-.header{
+
+.header {
     display: flex;
     box-sizing: border-box;
     flex-direction: row;
@@ -22,7 +25,7 @@ body{
     align-items: center;
     width: 100%;
     height: 30px;
-    position:absolute;
+    position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
@@ -30,7 +33,9 @@ body{
     font-size: 60px;
     text-shadow: #99620f 5px 2px 2px;
 }
-.login, .signup{
+
+.login,
+.signup {
     width: 120px;
     height: 40px;
     border-radius: 5px;
@@ -39,17 +44,20 @@ body{
     font-size: 15px;
     box-shadow: #560c85 5px 5px 2px;
 }
-.sec{
+
+.sec {
     margin-top: 300px;
     margin-left: 200px;
 }
-.title{
+
+.title {
     color: #F1C300;
     font-family: 'halo2';
-    font-size: 30px;  
-    text-shadow:#560c85 5px 5px 2px; 
+    font-size: 30px;
+    text-shadow: #560c85 5px 5px 2px;
 }
-.login{
+
+.login {
     background-color: rgba(255, 255, 255, 0);
     border: 3px solid #400b619d;
     transition: ease-in-out 0.2s;
@@ -58,7 +66,8 @@ body{
     color: aliceblue;
     margin-left: 200px;
 }
-.signup{
+
+.signup {
     background-color: #B5087B;
     border: 0px;
     transition: ease-in-out 0.2s;
@@ -67,15 +76,18 @@ body{
     color: aliceblue;
     margin-left: 30px;
 }
-.signup:hover{
+
+.signup:hover {
     background-color: #e40f9d;
     transition: ease-in-out 0.2s;
 }
-.login:hover{
+
+.login:hover {
     background-color: #8a1dce;
     border: 3px solid #400b619d;
 }
-.sec p{
+
+.sec p {
     color: aliceblue;
     font-family: 'Leelawadee UI';
     font-weight: bold;
@@ -83,29 +95,37 @@ body{
     width: 60%;
     font-size: 15px;
 }
-.content{
+
+.content {
     display: flex;
 }
-img{
+
+img {
     margin-top: 200px;
 }
 
 #message {
     font-size: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: whitesmoke;
+    font-family: 'halo2';
+    color: aliceblue;
     position: absolute;
-    top: 560px;
+    top: 650px;
+    left: 200px;
 }
 
 #inputFields {
     position: absolute;
-    top: 600px;
+    top: 700px;
+    left: 200px;
 }
 
 #inputFields label {
-    display: block; /* Isso faz com que os rótulos fiquem em linhas separadas */
-    font-size: 20px;
+    display: block;
+    /* Isso faz com que os rótulos fiquem em linhas separadas */
+    font-size: 15px;
+    margin-top: 6px;
     color: aliceblue;
-    margin-bottom: 10px; /* Adicione uma margem inferior para separar os rótulos */
+    font-family: 'Leelawadee UI';
+    margin-bottom: 10px;
+    /* Adicione uma margem inferior para separar os rótulos */
 }

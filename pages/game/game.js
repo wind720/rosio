@@ -1,49 +1,105 @@
-const emojis = ["🎃", "👻", "🕷️", "🦇", "🧙‍♀️", "🧟", "🍬", "❤️", "☀️", "🍕", "🎈", "🐱", "🌹", "✨", "😎", "💋"]; // Adicione mais emojis se desejar
+// game.js
+const apiUrl = "http://172.16.31.43:3000/users"; // Substitua com a URL correta da sua API
+
+const emojis = ["🎃", "👻", "🕷️", "🦇", "🧙‍♀️", "🧟", "🍬", "❤️", "☀️", "🍕", "🎈", "🐱", "🌹", "✨", "😎", "💋"];
 const halloweenEmojis = ["🎃", "👻", "🕷️", "🦇", "🧙‍♀️", "🧟", "🍬"];
 let score = 0;
 let clickedCards = [];
 let gameDuration = 15; // segundos
 let timer;
-const correctUsername = "seu_usuario"; // Substitua com o nome de usuário correto
-const correctPassword = "sua_senha"; // Substitua com a senha correta
+let currentUser; // Armazena informações do usuário logado
 
-function promptForCredentials() {
+async function promptForCredentials() {
     const username = prompt("Digite seu nome de usuário:");
     const password = prompt("Digite sua senha:");
 
     return { username, password };
 }
 
-function authenticateUser() {
+async function authenticateUser() {
     let attempts = 3;
 
     while (attempts > 0) {
-        const { username, password } = promptForCredentials();
+        const { username, password } = await promptForCredentials();
 
-        if (username === correctUsername && password === correctPassword) {
-            alert("Credenciais corretas! Bem-vindo ao jogo.");
-            return true;
-        } else {
-            attempts--;
-            alert(`Credenciais incorretas. Tentativas restantes: ${attempts}`);
+        try {
+            // Faz a requisição à API
+            const response = await fetch(apiUrl);
+            const users = await response.json();
+
+            // Verifica se há um usuário com as credenciais fornecidas
+            const user = users.find(u => u.nome === username && u.senha === password);
+
+            if (user) {
+                currentUser = user; // Armazena informações do usuário logado
+                alert("Credenciais corretas! Bem-vindo ao jogo.");
+                return true;
+            } else {
+                attempts--;
+                alert(`Credenciais incorretas. Tentativas restantes: ${attempts}`);
+            }
+        } catch (error) {
+            console.error("Erro ao buscar usuários na API:", error);
+            alert("Erro ao autenticar usuário. Tente novamente.");
+            return false;
         }
     }
 
     alert("Número máximo de tentativas atingido. O jogo será encerrado.");
+    window.location.href("../vendas/index.html");
     return false;
+}
+async function updateScoreInApi() {
+    try {
+        // Faz uma requisição GET para obter todos os usuários
+        const response = await fetch(apiUrl);
+        const users = await response.json();
+
+        // Procura o usuário pelo nome
+        const userToUpdate = users.find(user => user.nome === currentUser.nome);
+
+        if (userToUpdate) {
+            // Atualiza a pontuação localmente
+            userToUpdate.pontos = score;
+
+            // Faz uma requisição PUT para atualizar os dados completos do usuário
+            await fetch(`${apiUrl}/${userToUpdate.nome}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userToUpdate),
+            });
+
+            console.log(`Pontuação do usuário ${currentUser.nome} atualizada com sucesso!`);
+        } else {
+            console.error(`Usuário ${currentUser.nome} não encontrado na API.`);
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar pontuação na API:", error);
+    }
 }
 
 function startGame() {
-    const userConfirmed = confirm("Para jogar, digite seu nome de usuário e senha.");
+    const userConfirmed = confirm("Antes de jogar, confirme seu usuário.");
 
-    if (userConfirmed && authenticateUser()) {
-        alert("Bem-vindo ao 'Treasure of Souls'! Clique nos emojis temáticos de Halloween para acumular pontos, mas cuidado ao clicar em outros emojis! \nEles estarão em cartas, que mudam a cada 3 segundos, e a duração total do jogo será de 15 segundos. Seja rápido!");
+    if (userConfirmed) {
+        authenticateUser().then(isAuthenticated => {
+            if (isAuthenticated) {
+                alert("Bem-vindo ao 'Treasure of Souls'! Clique nos emojis temáticos de Halloween para acumular pontos, mas cuidado ao clicar em outros emojis! \nEles estarão em cartas, que mudam a cada 3 segundos, e a duração total do jogo será de 15 segundos. Seja rápido.");
 
-        createGameBoard();
-        updateScore();
-        updateTimer();
-        timer = setInterval(updateGame, 3000);
-        setInterval(updateTimer, 1000);
+                createGameBoard();
+                updateScore();
+                updateTimer();
+                timer = setInterval(updateGame, 3000);
+                setInterval(updateTimer, 1000);
+
+                // Adiciona um evento para chamar a função ao final do jogo
+                window.addEventListener('beforeunload', () => {
+                    updateScoreInApi();
+                });
+            }
+        });
     }
 }
 
@@ -111,11 +167,20 @@ function updateTimer() {
 
 function endGame() {
     // Alert box no final do jogo
-    const message = `Jogo encerrado! Sua pontuação final é ${score}`;
-    alert(message);
+    const message = `Jogo encerrado! Sua pontuação final é ${score}\nClique em OK para receber os pontos.`;
+    const confirmResponse = confirm(message);
 
-    // Redirecionar para outra página ao clicar em OK
-    window.open("../../hallow/cashback.html", "_self");
+    if (confirmResponse) {
+        // Atualizar pontos apenas se o usuário clicar em OK
+        updateScoreInApi().then(() => {
+            // Redirecionar para outra página ao clicar em OK
+            window.location.href("../../hallow/cashback.html");
+        });
+    } else {
+        // Se o usuário não clicar em OK, não atualizar os pontos
+        // Redirecionar para outra página
+        window.location.href("../../hallow/cashback.html");
+    }
 }
 
 startGame();
