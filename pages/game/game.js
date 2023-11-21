@@ -176,16 +176,16 @@ function endGame() {
             // Atualizar pontos apenas se o usuário clicar em OK
             updateScoreInApi().then(() => {
                 // Redirecionar para outra página ao clicar em OK
-                window.open("../../hallow/cashback.html", "_self");
+                window.open("../vendas/index.html", "_self");
             });
         } else {
             // Se o usuário não clicar em OK, não atualizar os pontos
             // Redirecionar para outra página
-            window.open("../../hallow/cashback.html", "_self");
+            window.open("../vendas/index.html", "_self");
         }
     } else {
         // Se os pontos forem zero, redirecionar diretamente
-        window.open("../../hallow/cashback.html", "_self");
+        window.open("../vendas/index.html", "_self");
     }
 }
 

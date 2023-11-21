@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
@@ -27,23 +27,27 @@
 
         .cont {
             display: flex;
+            flex-direction: row;
             align-items: center;
             gap: 50px;
+            width: 80%;
+            align-items: center;
+            justify-content: center;
         }
 
-        .ret1 {
-            position: relative;
-            width: 300px;
-            height: 600px;
-            background-color: #E88B00;
-            font-family: 'halo1';
-        }
-
+        .ret1,
         .ret2 {
             width: 300px;
             height: 600px;
             background-color: #E88B00;
             font-family: 'halo1';
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 3px;
+            padding: 5px;
         }
 
         .button,
@@ -67,6 +71,10 @@
             font-family: 'halo1';
         }
 
+        .but-exchange {
+            margin-top: 20px;
+        }
+
         .but:hover,
         .but-exchange:hover {
             background-color: #ca0c0c;
@@ -74,10 +82,15 @@
         }
 
         .p1,
-        .p2,
         .p3 {
             text-align: center;
             font-size: 25px;
+            font-family: 'halo1';
+        }
+
+        .p2 {
+            text-align: center;
+            font-size: 20px;
             font-family: 'halo1';
         }
 
@@ -120,158 +133,121 @@
 </head>
 
 <body>
+    <div class="cont">
+        <div class="ret1">
+            <p class="p1">
+                Pontos adquiridos:
+            </p>
+            <br>
+            <div id="pontos"></div>
+            <br>
+            <p class="p2">
+                Quantidade de pontos que deseja trocar:
+            </p>
+            <p class="inpt"><input id="moedasInput"></p>
+            <button class="but but-exchange" id="trocarPontosBtn">Trocar Pontos por Dinheiro</button>
+        </div>
+        <div class="button2">
+            <a href="../pages/index/index.html"><button class="but2">Voltar para o Menu Principal</button></a>
+        </div>
+        <div class="ret2">
+            <p class="p3">
+                Saldo depois da troca:<br><span id="saldoValue">0</span>
+            </p>
+        </div>
+    </div>
+
     <script>
-        async function promptForCredentials() {
+        window.onload = function () {
+            // Solicitação de ambos: nome de usuário e senha
             const username = prompt("Digite seu nome de usuário:");
             const password = prompt("Digite sua senha:");
 
-            // Fazendo a requisição à API para autenticação
-            const apiUrl = 'https://teste1-yebt.onrender.com/users';
-            const response = await fetch(apiUrl);
-            const users = await response.json();
+            function getUserInfo(username, password) {
+                const apiUrl = `https://teste1-yebt.onrender.com/login`;
+                fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ nome: username, senha: password }),
+                })
+                    .then(response => response.json())
+                    .then(user => {
+                        updateUserInfo(user);
+                    })
+                    .catch(error => console.error('Erro ao obter informações do usuário:', error));
+            }
 
-            // Verificando as credenciais
-            const authenticatedUser = users.find(user => user.nome === username && user.senha === password);
-
-            if (authenticatedUser) {
-                // Atualizando o saldo e pontos no HTML
-                const resultElement = document.getElementById('result');
-                const saldoElement = document.getElementById('saldoValue');
+            function updateUserInfo(user) {
                 const pontosElement = document.getElementById('pontos');
+                const saldoElement = document.getElementById('saldoValue');
 
-                resultElement.innerText = authenticatedUser.dinheiro.toFixed(2);
-                saldoElement.innerText = authenticatedUser.dinheiro.toFixed(2);
-                pontosElement.innerText = authenticatedUser.pontos.toFixed(2);
+                if (pontosElement && saldoElement) {
+                    pontosElement.innerText = user.pontos.toFixed(2);
+                    saldoElement.innerText = user.dinheiro.toFixed(2);
 
-                // Adicionando evento ao botão "Trocar"
-                const changeButton = document.querySelector('.but');
-                changeButton.addEventListener('click', () => change(authenticatedUser));
-
-                // Adicionando evento ao botão "Trocar Pontos por Dinheiro"
-                const exchangeButton = document.querySelector('.but-exchange');
-                exchangeButton.addEventListener('click', () => exchangePoints(authenticatedUser));
-
-                alert(`Login bem-sucedido! Bem-vindo, ${username}!`);
-            } else {
-                alert('Credenciais inválidas. Tente novamente.');
-            }
-        }
-
-        async function change(user) {
-            const moedasInput = document.getElementById('moedasInput');
-            const moedas = parseFloat(moedasInput.value);
-
-            if (!isNaN(moedas)) {
-                const saldoAtual = parseFloat(user.dinheiro);
-
-                if (moedas <= saldoAtual) {
-                    const novoSaldo = saldoAtual - moedas;
-                    const taxaConversao = 0.01;
-                    const saldoConvertido = moedas * taxaConversao;
-
-                    // Atualizando o saldo no HTML
-                    const resultElement = document.getElementById('result');
-                    const saldoElement = document.getElementById('saldoValue');
-                    const pontosElement = document.getElementById('pontos');
-
-                    resultElement.innerText = novoSaldo.toFixed(2);
-                    saldoElement.innerText = novoSaldo.toFixed(2);
-                    pontosElement.innerText = (parseFloat(user.pontos) + saldoConvertido).toFixed(2);
-
-                    // Atualizando o saldo na API
-                    const updatedUser = { ...user, dinheiro: novoSaldo, pontos: parseFloat(user.pontos) + saldoConvertido };
-                    const apiUrl = 'https://teste1-yebt.onrender.com/users';
-                    await fetch(apiUrl, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(updatedUser),
-                    });
-
-                    alert('Troca realizada com sucesso!');
+                    const trocarPontosBtn = document.getElementById('trocarPontosBtn');
+                    trocarPontosBtn.addEventListener('click', () => trocarPontosPorDinheiro(user));
                 } else {
-                    alert('Você não pode trocar mais moedas do que possui.');
+                    console.error('Um ou mais elementos não foram encontrados.');
                 }
-            } else {
-                alert('Por favor, insira um valor numérico válido.');
             }
-        }
 
-        async function exchangePoints(user) {
-            const pontosInput = prompt("Digite a quantidade de pontos que deseja trocar por dinheiro:");
-            const pontos = parseFloat(pontosInput);
+            async function trocarPontosPorDinheiro(user) {
+                try {
+                    const moedasInput = document.getElementById('moedasInput');
+                    const moedas = parseFloat(moedasInput.value);
 
-            if (!isNaN(pontos)) {
-                const pontosAtual = parseFloat(user.pontos);
+                    if (!isNaN(moedas) && moedas >= 0) {
+                        if (moedas <= parseFloat(user.pontos)) {
+                            const taxaConversao = 0.01;
+                            const saldoConvertido = moedas * taxaConversao;
 
-                if (pontos <= pontosAtual) {
-                    const dinheiroConvertido = pontos * 0.1; // Exemplo: 1 ponto = 0.1 dinheiro
+                            const novoSaldo = parseFloat(user.dinheiro) + saldoConvertido;
 
-                    // Atualizando o saldo no HTML
-                    const resultElement = document.getElementById('result');
-                    const saldoElement = document.getElementById('saldoValue');
-                    const pontosElement = document.getElementById('pontos');
+                            const saldoElement = document.getElementById('saldoValue');
+                            const pontosElement = document.getElementById('pontos');
 
-                    resultElement.innerText = (parseFloat(user.dinheiro) + dinheiroConvertido).toFixed(2);
-                    saldoElement.innerText = (parseFloat(user.dinheiro) + dinheiroConvertido).toFixed(2);
-                    pontosElement.innerText = (pontosAtual - pontos).toFixed(2);
+                            if (saldoElement && pontosElement) {
+                                saldoElement.innerText = novoSaldo.toFixed(2);
+                                pontosElement.innerText = (parseFloat(user.pontos) - moedas).toFixed(2);
 
-                    // Atualizando a API com a troca de pontos por dinheiro
-                    const updatedUser = {
-                        ...user,
-                        dinheiro: parseFloat(user.dinheiro) + dinheiroConvertido,
-                        pontos: pontosAtual - pontos
-                    };
-                    const apiUrl = 'https://teste1-yebt.onrender.com/users';
-                    await fetch(apiUrl, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(updatedUser),
-                    });
+                                user.dinheiro = novoSaldo;
+                                user.pontos -= moedas;
 
-                    alert(`Troca realizada com sucesso! Você ganhou ${dinheiroConvertido.toFixed(2)} de dinheiro.`);
-                } else {
-                    alert('Você não possui pontos suficientes para realizar esta troca.');
+                                await atualizarUsuarioNaAPI(user.nome, { pontos: user.pontos, dinheiro: user.dinheiro });
+
+                                alert('Troca realizada com sucesso!');
+                            } else {
+                                console.error('Um ou mais elementos não foram encontrados.');
+                            }
+                        } else {
+                            alert('Você não pode trocar mais pontos do que possui.');
+                        }
+                    } else {
+                        alert('Por favor, insira um valor numérico válido maior ou igual a zero.');
+                    }
+                } catch (error) {
+                    console.error('Erro ao processar a troca:', error);
+                    alert('Ocorreu um erro ao processar a troca. Por favor, tente novamente.');
                 }
-            } else {
-                alert('Por favor, insira um valor numérico válido para a quantidade de pontos.');
             }
-        }
 
-        // Chamar a função ao carregar a página
-        window.onload = promptForCredentials;
+            async function atualizarUsuarioNaAPI(username, data) {
+                const apiUrl = `https://teste1-yebt.onrender.com/users/${username}`;
+                await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
+                });
+            }
+
+            getUserInfo(username, password);
+        };
     </script>
-    <div class="cont">
-        <div class="ret1">
-            <div class="ret1">
-                <p class="p1">
-                    Saldo atual moedas:
-                </p>
-                <br><br>
-                <p class="p2">
-                    Deseja trocar quantas moedas?
-                </p>
-                <p class="inpt"><input id="moedasInput"></p>
-                <div id="result"></div>
-                <div id="pontos"></div>
-            </div>
-            <div class="button">
-                <button class="but" onclick="change()">Trocar</button>
-                <button class="but but-exchange">Trocar Pontos por Dinheiro</button>
-            </div>
-            <div class="button2">
-                <button class="but2">Voltar para o Menu Principal</button>
-            </div>
-            <div class="ret2">
-                <p class="p3">
-                    Saldo depois da troca:<br><span id="saldoValue">0</span>
-                </p>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>
